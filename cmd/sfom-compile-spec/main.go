@@ -29,8 +29,37 @@ func main() {
 	mu := new(sync.RWMutex)
 	parent_map := new(sync.Map)
 
-	// TO DO: pull in "core" placetypes spec and add parent pointers
+	// START OF pull in "core" placetypes spec and add parent pointers
 	
+	spec_r, err := wof_placetypes.FS.Open("placetypes.json")
+
+	if err != nil {
+		log.Fatalf("Failed to open latest spec, %v", err)
+	}
+
+	defer spec_r.Close()
+
+	var catalog map[string]*wof_placetypes.WOFPlacetype
+
+	dec := json.NewDecoder(spec_r)
+	err = dec.Decode(&catalog)
+
+	if err != nil {
+		log.Fatalf("Failed to decode latest spec, %v", err)
+	}
+
+	for str_id, pt := range catalog {
+
+		id, err := strconv.ParseInt(str_id, 10, 64)
+
+		if err != nil {
+			log.Fatalf("Failed to parse ID (%s) for %s, %v", str_id, pt.Name, err)
+		}
+		
+		parent_map.Store(pt.Name, id)
+	}
+	
+	// END OF pull in "core" placetypes spec and add parent pointers	
 	
 	custom_placetypes := make([]*sfom_placetypes.SFOMuseumPlacetypeDefinition, 0)
 
@@ -70,8 +99,6 @@ func main() {
 		log.Fatalf("Failed to iterate URIs, %v", err)
 	}
 
-	// START OF... not sure...
-
 	spec := make(map[string]*wof_placetypes.WOFPlacetype)
 
 	for _, pt := range custom_placetypes {
@@ -94,7 +121,7 @@ func main() {
 		}
 
 		spec[str_id] = &wof_placetypes.WOFPlacetype{
-			Id: pt.Id,
+			// Id: pt.Id,
 			Role:   pt.Role,
 			Name:   pt.Name,
 			Parent: parent_ids,
