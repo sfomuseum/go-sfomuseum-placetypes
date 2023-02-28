@@ -1,0 +1,6 @@
+go 1.20
+
+use (
+    ./
+    ../../whosonfirst/go-whosonfirst-placetypes
+)    
