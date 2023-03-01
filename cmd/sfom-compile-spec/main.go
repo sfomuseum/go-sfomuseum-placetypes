@@ -121,7 +121,7 @@ func main() {
 		}
 
 		spec[str_id] = &wof_placetypes.WOFPlacetype{
-			// Id: pt.Id,
+			Id: pt.Id,
 			Role:   pt.Role,
 			Name:   pt.Name,
 			Parent: parent_ids,
