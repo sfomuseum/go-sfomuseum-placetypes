@@ -26,6 +26,17 @@ func SFOMuseumPlacetypeSpecification() (*wof_placetypes.WOFPlacetypeSpecificatio
 		return nil,fmt.Errorf("Failed to load SFO Museum placetypes spec, %w", err)
 	}
 
+	return sfom_spec, nil
+}
+
+func SFOMuseumPlacetypeSpecificationWithCore() (*wof_placetypes.WOFPlacetypeSpecification, error) {
+
+	sfom_spec, err := SFOMuseumPlacetypeSpecification()
+
+	if err != nil {
+		return nil, err
+	}
+	
 	core_spec, err := wof_placetypes.DefaultWOFPlacetypeSpecification()
 
 	if err != nil {

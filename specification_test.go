@@ -7,8 +7,12 @@ import (
 )
 
 func TestSFOMuseumPlacetypeSpecification(t *testing.T) {
+	t.Skip()
+}
 
-	spec, err := SFOMuseumPlacetypeSpecification()
+func TestSFOMuseumPlacetypeSpecificationWithCore(t *testing.T) {
+
+	spec, err := SFOMuseumPlacetypeSpecificationWithCore()
 
 	if err != nil {
 		t.Fatalf("Failed to create SFO Museum placetypes spec, %v", err)
