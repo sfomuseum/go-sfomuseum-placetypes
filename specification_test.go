@@ -1,7 +1,7 @@
 package placetypes
 
 import (
-	"fmt"
+	_ "fmt"
 	"testing"
 
 	wof_placetypes "github.com/whosonfirst/go-whosonfirst-placetypes"	
@@ -57,7 +57,7 @@ func TestSFOMuseumPlacetypeSpecification(t *testing.T) {
 	a := spec.AncestorsForRoles(gate_pt, roles)
 	count_a := len(a)
 
-	expected_count := 23
+	expected_count := 24
 	
 	if count_a != expected_count {
 		t.Fatalf("Unexpected ancestors for gate. Expected %d, but got %d", expected_count, count_a)
@@ -75,17 +75,21 @@ func TestSFOMuseumPlacetypeSpecification(t *testing.T) {
 		t.Fatalf("Expected terminal to be descendant of county")
 	}
 
-	airport_pt, err := spec.GetPlacetypeByName("airport")
-
-	if err != nil {
-		t.Fatalf("Failed to get airport placetype, %v", err)
-	}
-	
 	roles_custom := []string{
 		wof_placetypes.CUSTOM_ROLE,
 	}
 
-	custom_pt := spec.DescendantsForRoles(airport_pt, roles_custom)
-	
-	fmt.Println(custom_pt)
+	planet_pt, _ := spec.GetPlacetypeByName("planet")
+
+	if err != nil {
+		t.Fatalf("Failed to get planet placetype, %v", err)
+	}
+		
+	custom_pt := spec.DescendantsForRoles(planet_pt, roles_custom)
+
+	expected_custom := 9
+
+	if len(custom_pt) != expected_custom {
+		t.Fatalf("Unexpected placetypes for custom role. Expected %d but got %d", expected_custom, len(custom_pt))
+	}
 }
