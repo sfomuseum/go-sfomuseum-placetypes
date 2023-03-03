@@ -57,7 +57,7 @@ func TestSFOMuseumPlacetypeSpecification(t *testing.T) {
 	a := spec.AncestorsForRoles(gate_pt, roles)
 	count_a := len(a)
 
-	expected_count := 24
+	expected_count := 23
 	
 	if count_a != expected_count {
 		t.Fatalf("Unexpected ancestors for gate. Expected %d, but got %d", expected_count, count_a)
@@ -74,9 +74,9 @@ func TestSFOMuseumPlacetypeSpecification(t *testing.T) {
 	if !spec.IsDescendant(county_pt, terminal_pt){
 		t.Fatalf("Expected terminal to be descendant of county")
 	}
-
-	roles_custom := []string{
-		wof_placetypes.CUSTOM_ROLE,
+ 
+	roles_optional := []string{
+		wof_placetypes.OPTIONAL_ROLE,
 	}
 
 	planet_pt, _ := spec.GetPlacetypeByName("planet")
@@ -85,11 +85,11 @@ func TestSFOMuseumPlacetypeSpecification(t *testing.T) {
 		t.Fatalf("Failed to get planet placetype, %v", err)
 	}
 		
-	custom_pt := spec.DescendantsForRoles(planet_pt, roles_custom)
+	optional_pt := spec.DescendantsForRoles(planet_pt, roles_optional)
 
-	expected_custom := 9
+	expected_optional := 2
 
-	if len(custom_pt) != expected_custom {
-		t.Fatalf("Unexpected placetypes for custom role. Expected %d but got %d", expected_custom, len(custom_pt))
+	if len(optional_pt) != expected_optional {
+		t.Fatalf("Unexpected placetypes for optional role. Expected %d but got %d", expected_optional, len(optional_pt))
 	}
 }
