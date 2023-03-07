@@ -48,7 +48,7 @@ func main() {
 
 	// END OF pull in "core" placetypes spec and add parent pointers	
 	
-	custom_placetypes := make([]*sfom_placetypes.SFOMuseumPlacetypeDefinition, 0)
+	custom_placetypes := make([]*sfom_placetypes.SFOMuseumPlacetypeRecord, 0)
 
 	iter_cb := func(ctx context.Context, path string, r io.ReadSeeker, args ...interface{}) error {
 
@@ -56,7 +56,7 @@ func main() {
 			return nil
 		}
 
-		var pt *sfom_placetypes.SFOMuseumPlacetypeDefinition
+		var pt *sfom_placetypes.SFOMuseumPlacetypeRecord
 
 		dec := json.NewDecoder(r)
 		err := dec.Decode(&pt)

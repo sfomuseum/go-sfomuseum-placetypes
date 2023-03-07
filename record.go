@@ -4,7 +4,7 @@ package placetypes
 // or even just to be able to reference "core" parents we'll need to
 // maintain parity with WOFPlacetype struct
 
-type SFOMuseumPlacetypeDefinition struct {
+type SFOMuseumPlacetypeRecord struct {
 	Id int64 `json:"sfomuseum:id"`
 	Name string `json:"sfomuseum:name"`
 	Role string `json:"sfomuseum:role"`
