@@ -3,6 +3,7 @@ module github.com/sfomuseum/go-sfomuseum-placetypes
 go 1.18
 
 require (
+	github.com/sfomuseum/go-flags v0.10.0
 	github.com/whosonfirst/go-whosonfirst-iterate/v2 v2.4.1
 	github.com/whosonfirst/go-whosonfirst-placetypes v0.7.2
 )
