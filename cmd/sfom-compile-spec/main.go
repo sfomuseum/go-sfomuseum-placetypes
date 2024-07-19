@@ -7,14 +7,16 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"log/slog"
 	"os"
 	"path/filepath"
+	_ "slices"
 	"strconv"
 	"sync"
 
+	sfom_placetypes "github.com/sfomuseum/go-sfomuseum-placetypes"
 	"github.com/whosonfirst/go-whosonfirst-iterate/v2/iterator"
 	wof_placetypes "github.com/whosonfirst/go-whosonfirst-placetypes"
-	sfom_placetypes "github.com/sfomuseum/go-sfomuseum-placetypes"	
 )
 
 func main() {
@@ -30,12 +32,12 @@ func main() {
 	parent_map := new(sync.Map)
 
 	sfom_spec, err := sfom_placetypes.SFOMuseumPlacetypeSpecification()
-	
+
 	if err != nil {
 		log.Fatalf("Failed to open latest spec, %v", err)
 	}
 
-	for str_id, pt := range sfom_spec.Catalog() {		
+	for str_id, pt := range sfom_spec.Catalog() {
 
 		id, err := strconv.ParseInt(str_id, 10, 64)
 
@@ -46,8 +48,8 @@ func main() {
 		parent_map.Store(pt.Name, id)
 	}
 
-	// END OF pull in "core" placetypes spec and add parent pointers	
-	
+	// END OF pull in "core" placetypes spec and add parent pointers
+
 	custom_placetypes := make([]*sfom_placetypes.SFOMuseumPlacetypeRecord, 0)
 
 	iter_cb := func(ctx context.Context, path string, r io.ReadSeeker, args ...interface{}) error {
@@ -92,7 +94,7 @@ func main() {
 
 		// Legacy stuff, oh well...
 		str_id := strconv.FormatInt(pt.Id, 10)
-		
+
 		parents := pt.Parent
 		parent_ids := make([]int64, len(parents))
 
@@ -107,8 +109,36 @@ func main() {
 			parent_ids[idx] = p_id.(int64)
 		}
 
+		/*
+			wof_concordance, exists := pt.Concordances["wof:placetype"]
+
+			if exists {
+
+				slog.Info("Placetype has wof:placetype concordance", "placetype", pt.Name, "wof placetype", wof_concordance)
+
+				wof_pt, err := wof_placetypes.GetPlacetypeByName(wof_concordance)
+
+				if err != nil {
+					slog.Warn("Failed to load wof:placetype, skipping", "placetype", wof_concordance, "error", err)
+				} else {
+
+					for _, pid := range wof_pt.Parent {
+
+						if slices.Contains(parent_ids, pid){
+							continue
+						}
+
+						slog.Info("Add parent for WOF placetype", "placetype", pt.Name, "wof placetype", wof_pt.Name, "parent", pid)
+						parent_ids = append(parent_ids, pid)
+					}
+				}
+			}
+		*/
+
+		slog.Info("Add placetype", "id", pt.Id, "name", pt.Name, "parents", parent_ids)
+
 		new_spec[str_id] = &wof_placetypes.WOFPlacetype{
-			Id: pt.Id,
+			Id:     pt.Id,
 			Role:   pt.Role,
 			Name:   pt.Name,
 			Parent: parent_ids,

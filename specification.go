@@ -12,26 +12,26 @@ var FS embed.FS
 
 func SFOMuseumPlacetypeSpecification() (*wof_placetypes.WOFPlacetypeSpecification, error) {
 
-        r, err := FS.Open("placetypes.json")
+	r, err := FS.Open("placetypes.json")
 
 	if err != nil {
-                return nil, fmt.Errorf("Failed to open placetypes, %w", err)
+		return nil, fmt.Errorf("Failed to open placetypes, %w", err)
 	}
 
-        defer r.Close()
+	defer r.Close()
 
 	core_spec, err := wof_placetypes.DefaultWOFPlacetypeSpecification()
 
 	if err != nil {
 		return nil, fmt.Errorf("Failed to load core placetypes spec, %w", err)
 	}
-	
+
 	sfom_spec, err := wof_placetypes.NewWOFPlacetypeSpecificationWithReader(r)
 
 	if err != nil {
-		return nil,fmt.Errorf("Failed to load SFO Museum placetypes spec, %w", err)
+		return nil, fmt.Errorf("Failed to load SFO Museum placetypes spec, %w", err)
 	}
-	
+
 	err = sfom_spec.AppendPlacetypeSpecification(core_spec)
 
 	if err != nil {

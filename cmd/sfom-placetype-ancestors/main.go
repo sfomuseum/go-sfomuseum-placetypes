@@ -6,7 +6,7 @@ import (
 
 	"github.com/sfomuseum/go-flags/multi"
 	sfom_placetypes "github.com/sfomuseum/go-sfomuseum-placetypes"
-	wof_placetypes "github.com/whosonfirst/go-whosonfirst-placetypes"	
+	wof_placetypes "github.com/whosonfirst/go-whosonfirst-placetypes"
 )
 
 func main() {
@@ -25,7 +25,7 @@ func main() {
 	if len(roles) == 0 {
 		roles = wof_placetypes.AllRoles()
 	}
-	
+
 	for _, str_pt := range flag.Args() {
 
 		pt, err := pt_spec.GetPlacetypeByName(str_pt)

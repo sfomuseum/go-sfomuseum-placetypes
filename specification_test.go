@@ -4,7 +4,7 @@ import (
 	_ "fmt"
 	"testing"
 
-	wof_placetypes "github.com/whosonfirst/go-whosonfirst-placetypes"	
+	wof_placetypes "github.com/whosonfirst/go-whosonfirst-placetypes"
 )
 
 func TestSFOMuseumPlacetypeSpecification(t *testing.T) {
@@ -21,7 +21,7 @@ func TestSFOMuseumPlacetypeSpecification(t *testing.T) {
 	}
 
 	for _, name := range placetype_names {
-		
+
 		_, err = spec.GetPlacetypeByName(name)
 
 		if err != nil {
@@ -46,35 +46,35 @@ func TestSFOMuseumPlacetypeSpecification(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to load county placetype, %v", err)
 	}
-	
+
 	roles := []string{
 		wof_placetypes.COMMON_ROLE,
 		wof_placetypes.OPTIONAL_ROLE,
 		wof_placetypes.COMMON_OPTIONAL_ROLE,
-		wof_placetypes.CUSTOM_ROLE,				
+		wof_placetypes.CUSTOM_ROLE,
 	}
-	
+
 	a := spec.AncestorsForRoles(gate_pt, roles)
 	count_a := len(a)
 
 	expected_count := 23
-	
+
 	if count_a != expected_count {
 		t.Fatalf("Unexpected ancestors for gate. Expected %d, but got %d", expected_count, count_a)
 	}
-	
-	if !spec.IsAncestor(gate_pt, terminal_pt){
+
+	if !spec.IsAncestor(gate_pt, terminal_pt) {
 		t.Fatalf("Expected terminal to be ancestor of gate")
 	}
 
-	if !spec.IsAncestor(terminal_pt, county_pt){
+	if !spec.IsAncestor(terminal_pt, county_pt) {
 		t.Fatalf("Expected county to be ancestor of terminal")
 	}
 
-	if !spec.IsDescendant(county_pt, terminal_pt){
+	if !spec.IsDescendant(county_pt, terminal_pt) {
 		t.Fatalf("Expected terminal to be descendant of county")
 	}
- 
+
 	roles_optional := []string{
 		wof_placetypes.OPTIONAL_ROLE,
 	}
@@ -84,7 +84,7 @@ func TestSFOMuseumPlacetypeSpecification(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to get planet placetype, %v", err)
 	}
-		
+
 	optional_pt := spec.DescendantsForRoles(planet_pt, roles_optional)
 
 	expected_optional := 2

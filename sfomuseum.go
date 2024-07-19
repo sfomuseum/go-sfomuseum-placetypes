@@ -3,7 +3,7 @@ package placetypes
 import (
 	"context"
 	"fmt"
-	
+
 	wof_placetypes "github.com/whosonfirst/go-whosonfirst-placetypes"
 )
 
@@ -11,14 +11,14 @@ type SFOMuseumDefinition struct {
 	wof_placetypes.Definition
 	spec *wof_placetypes.WOFPlacetypeSpecification
 	prop string
-	uri string
+	uri  string
 }
 
-func init(){
+func init() {
 	ctx := context.Background()
 	wof_placetypes.RegisterDefinition(ctx, "sfomuseum", NewSFOMuseumDefinition)
 }
-	
+
 func NewSFOMuseumDefinition(ctx context.Context, uri string) (wof_placetypes.Definition, error) {
 
 	spec, err := SFOMuseumPlacetypeSpecification()
@@ -30,7 +30,7 @@ func NewSFOMuseumDefinition(ctx context.Context, uri string) (wof_placetypes.Def
 	s := &SFOMuseumDefinition{
 		spec: spec,
 		prop: "sfomuseum:placetype",
-		uri: uri,
+		uri:  uri,
 	}
 
 	return s, nil

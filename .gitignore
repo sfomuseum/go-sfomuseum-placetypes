@@ -2,3 +2,5 @@
 bin
 placetypes.json.last
 placetypes.json.tmp
+work
+go.work*
